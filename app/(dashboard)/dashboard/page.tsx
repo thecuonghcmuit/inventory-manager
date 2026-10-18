@@ -10,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { CustomersChart, TopProductsChart, WeekChart } from "@/components/dashboard/DashboardCharts";
+import { requireUser } from "@/lib/dal";
 import "./dashboard.css";
 
 export const metadata = { title: "Dashboard" };
@@ -39,7 +40,9 @@ const stockAlerts = [
   { code: "001", product: "FACE FAT AND DOUBLE CHIN", warehouse: "Office", qty: "2", alertQty: "3" },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  await requireUser();
+
   return (
     <div className="dash-section-gap">
       {/* KPI tiles */}

@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { ChevronDown, Grid2x2, Monitor, Plus } from "lucide-react";
+import { requireUser } from "@/lib/dal";
 import { Breadcrumb, CollapseButton } from "./TopbarControls";
+import UserMenu from "./UserMenu";
 
 export default function Topbar() {
   return (
@@ -22,11 +24,24 @@ export default function Topbar() {
       <button type="button" className="gg-icon-btn">
         <Grid2x2 />
       </button>
-      <div className="gg-user">
-        <div className="gg-avatar">A</div>
-        <span style={{ fontWeight: 600, color: "var(--ink)", fontSize: 14 }}>admin</span>
-        <ChevronDown style={{ width: 16, height: 16, color: "var(--gray-400)" }} />
-      </div>
+      {/* The session is request-time data, so the user block streams in. */}
+      <Suspense fallback={<UserMenuPlaceholder />}>
+        <CurrentUserMenu />
+      </Suspense>
     </header>
+  );
+}
+
+async function CurrentUserMenu() {
+  const user = await requireUser();
+  return <UserMenu name={user.name ?? ""} email={user.email ?? ""} />;
+}
+
+function UserMenuPlaceholder() {
+  return (
+    <div className="gg-user" aria-hidden="true">
+      <div className="gg-avatar"></div>
+      <ChevronDown style={{ width: 16, height: 16, color: "var(--gray-400)" }} />
+    </div>
   );
 }
