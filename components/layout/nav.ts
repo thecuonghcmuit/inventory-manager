@@ -107,6 +107,18 @@ export const NAV: NavEntry[] = [
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
+/** Breadcrumb titles for pages that are not in the sidebar. */
+const PAGE_TITLES: Record<string, string> = {
+  "/profile": "Profile",
+  "/change-password": "Change Password",
+};
+
+export function findPageTitle(pathname: string | null): string | undefined {
+  const link = findActiveLink(pathname);
+  if (link) return link.title ?? link.label;
+  return pathname ? PAGE_TITLES[pathname] : undefined;
+}
+
 export function isGroup(entry: NavEntry): entry is NavGroup {
   return "children" in entry;
 }

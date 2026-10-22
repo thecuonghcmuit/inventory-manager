@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 import { ChevronDown, KeyRound, LogOut, UserRound } from "lucide-react";
 import "./UserMenu.css";
 
-export default function UserMenu({ name, email }: { name: string; email: string }) {
+export default function UserMenu({ name, email, image }: { name: string; email: string; image: string | null }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -44,7 +44,15 @@ export default function UserMenu({ name, email }: { name: string; email: string 
         aria-controls={menuId}
         onClick={() => setOpen((o) => !o)}
       >
-        <div className="gg-avatar">{initial}</div>
+        <div className="gg-avatar" style={image ? { overflow: "hidden" } : undefined}>
+          {image ? (
+            // Plain <img>: avatars are uploaded files or external URLs, not build-time assets.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          ) : (
+            initial
+          )}
+        </div>
         <span style={{ fontWeight: 600, color: "var(--ink)", fontSize: 14 }}>{name || email}</span>
         <ChevronDown style={{ width: 16, height: 16, color: "var(--gray-400)" }} />
       </button>

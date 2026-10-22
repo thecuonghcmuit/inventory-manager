@@ -3,6 +3,7 @@ import { cache } from "react";
 import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { db } from "@/lib/db";
 
 /**
  * The signed-in user, or a redirect to the login page.
@@ -18,4 +19,17 @@ export const requireUser = cache(async () => {
   const session = await auth();
   if (!session?.user) redirect("/");
   return session.user;
+});
+
+/**
+ * The signed-in user's current database record (never the password). Unlike the session,
+ * which is fixed at sign-in, this reflects profile edits immediately.
+ * Returns null if the account no longer exists.
+ */
+export const getCurrentUser = cache(async () => {
+  const { id } = await requireUser();
+  return db.user.findUnique({
+    where: { id },
+    select: { id: true, firstName: true, lastName: true, email: true, phoneNumber: true, image: true, role: true },
+  });
 });

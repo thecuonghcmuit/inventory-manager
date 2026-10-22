@@ -1,0 +1,22 @@
+/* ---- Shared dashboard form layout (from the design's page-level styles, e.g. Create User.html) ---- */
+.page-head { display: flex; align-items: center; margin-bottom: var(--sp-6); }
+.page-head .gg-page-title { flex: 1; }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5) var(--sp-8); }
+
+/* ---- Form feedback (not in the design; built from its tokens) ---- */
+.form-alert { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-6); border-radius: var(--r-md); font-size: 14px; font-weight: 600; }
+.form-alert svg { width: 18px; height: 18px; flex: none; }
+.form-alert--success { background: var(--success-bg); color: var(--success-fg); }
+.form-alert--success svg { color: var(--success); }
+.form-alert--error { background: var(--danger-bg); color: var(--danger-fg); }
+.form-alert--error svg { color: var(--danger); }
+.gg-field-error { display: flex; align-items: center; gap: 6px; margin: 0; color: var(--danger-fg); font-size: 13px; font-weight: 600; }
+.gg-field-error svg { width: 14px; height: 14px; flex: none; color: var(--danger); }
+.gg-input[aria-invalid="true"] { border-color: var(--danger); }
+
+/* ---- Password input with a show/hide toggle ---- */
+.pw-field { position: relative; }
+.pw-field .gg-input { padding-right: 50px; }
+.pw-toggle { position: absolute; right: 7px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: var(--r-sm); background: none; color: var(--gray-500); cursor: pointer; transition: background .14s, color .14s; }
+.pw-toggle:hover { background: var(--gray-100); color: var(--ink); }
+.pw-toggle svg { width: 18px; height: 18px; }

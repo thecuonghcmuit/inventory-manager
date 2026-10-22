@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { ChevronDown, Grid2x2, Monitor, Plus } from "lucide-react";
-import { requireUser } from "@/lib/dal";
+import { getCurrentUser, requireUser } from "@/lib/dal";
 import { Breadcrumb, CollapseButton } from "./TopbarControls";
 import UserMenu from "./UserMenu";
 
@@ -33,8 +33,14 @@ export default function Topbar() {
 }
 
 async function CurrentUserMenu() {
-  const user = await requireUser();
-  return <UserMenu name={user.name ?? ""} email={user.email ?? ""} />;
+  // Read from the database, not the session: the session's name/image are fixed at sign-in,
+  // so profile edits would not show until the next login.
+  const user = await getCurrentUser();
+  if (!user) {
+    const session = await requireUser();
+    return <UserMenu name={session.name ?? ""} email={session.email ?? ""} image={null} />;
+  }
+  return <UserMenu name={`${user.firstName} ${user.lastName}`} email={user.email} image={user.image} />;
 }
 
 function UserMenuPlaceholder() {

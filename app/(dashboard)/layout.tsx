@@ -4,6 +4,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import Footer from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
+import "./forms.css";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { useSidebar } from "./AppShell";
-import { findActiveLink } from "./nav";
+import { findPageTitle } from "./nav";
 
 export function CollapseButton() {
   const { collapsed, toggle } = useSidebar();
@@ -23,7 +23,7 @@ export function CollapseButton() {
 
 /** Breadcrumb label for the current route, taken from the nav. */
 export function Breadcrumb() {
-  const link = findActiveLink(usePathname());
-  if (!link) return null;
-  return <span className="gg-breadcrumb">{link.title ?? link.label}</span>;
+  const title = findPageTitle(usePathname());
+  if (!title) return null;
+  return <span className="gg-breadcrumb">{title}</span>;
 }
